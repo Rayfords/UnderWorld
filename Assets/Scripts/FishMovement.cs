@@ -50,7 +50,7 @@ public class FishMovement : MonoBehaviour {
             bMoveY = false;
         }
         //Змінення позиції тексту над рибою.
-        tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
+        //tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
         //Викликається метод для повороту об'єкту по осі Х. Метод викликається раз у 5 секунд.
 		if (bRotate) {
             Invoke("canRotate", 5f);

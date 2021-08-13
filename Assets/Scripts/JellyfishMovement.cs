@@ -40,7 +40,7 @@ public class JellyfishMovement : MonoBehaviour {
             Invoke("moveY", secY);
             bMoveX = false;
         }
-        tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
+        //tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
     }
 
     void changeText() {

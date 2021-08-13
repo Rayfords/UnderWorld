@@ -36,7 +36,7 @@ public class CrabMovement : MonoBehaviour {
             Invoke("moveX", secX);
             bMoveX = false;
         }
-        tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
+        //tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
     }
 
     public void changeTexture() {

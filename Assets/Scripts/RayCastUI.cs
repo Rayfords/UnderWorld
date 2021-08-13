@@ -63,10 +63,13 @@ public class RayCastUI : MonoBehaviour
             {
                 if (time >= 1)
                 {
-                    _b = hit.collider.gameObject.GetComponent<Animator>();
-
-                    _b.Play("ButtonClick");
+                    Debug.Log("Button activated");
+                    //_b = hit.collider.gameObject.GetComponent<Animator>();
+                    var button = hit.collider.gameObject.GetComponent<Button>();
+                    //_b.Play("ButtonClick");
                     _isHover = false;
+
+                    button.onClick.Invoke();
 
                     time = 0;
                 }
@@ -77,7 +80,7 @@ public class RayCastUI : MonoBehaviour
         {
             _img.enabled = false;
             _handControll.NoHover();
-            Debug.Log("Animation Stop");
+            //Debug.Log("Animation Stop");
             _playAnimation = false;
         }
 
