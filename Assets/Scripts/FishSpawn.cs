@@ -29,19 +29,22 @@ public class FishSpawn : MonoBehaviour {
         Instantiate(obj[tindex], pos, Quaternion.identity);
     }
 
-    public void changeTexture() {
+    public void changeTexture()
+    {
         FishMovement[] fishMovement = FindObjectsOfType<FishMovement>();
         CrabMovement[] crabMovement = FindObjectsOfType<CrabMovement>();
         JellyfishMovement[] jellyfishMovement = FindObjectsOfType<JellyfishMovement>();
-        for (int i = 0; i < fishMovement.Length; i++) {
+        for (int i = 0; i < fishMovement.Length; i++)
+        {
             string tempString = "";
             int j = 0;
-            while(fishMovement[i].name[j] != '(')
+            while (fishMovement[i].name[j] != '(')
                 tempString += fishMovement[i].name[j++];
             if (FindObjectOfType<ManagerMenu>().GetComponent<ManagerMenu>().getSelectedObj().name == tempString)
                 fishMovement[i].changeTexture();
         }
-        for (int i = 0; i < crabMovement.Length; i++) {
+        for (int i = 0; i < crabMovement.Length; i++)
+        {
             string tempString = "";
             int j = 0;
             while (crabMovement[i].name[j] != '(')
@@ -49,7 +52,8 @@ public class FishSpawn : MonoBehaviour {
             if (FindObjectOfType<ManagerMenu>().GetComponent<ManagerMenu>().getSelectedObj().name == tempString)
                 crabMovement[i].changeTexture();
         }
-        for (int i = 0; i < jellyfishMovement.Length; i++) {
+        for (int i = 0; i < jellyfishMovement.Length; i++)
+        {
             string tempString = "";
             int j = 0;
             while (jellyfishMovement[i].name[j] != '(')

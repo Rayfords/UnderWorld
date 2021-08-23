@@ -42,6 +42,7 @@ public class SelectCharacters : MonoBehaviour
     [SerializeField] private GameObject Burst;
 
     [SerializeField] private GameObject[] ObjToSpawn;
+    [SerializeField] private GameObject[] CustomObjToSpawn;
 
     //public List<Transform> spawnPoints = new List<Transform>();
     //public FishSpawn[] spawns;
@@ -347,9 +348,9 @@ public class SelectCharacters : MonoBehaviour
         Transform pos = CustomSpawnPosition;//[Random.Range(0, SpawnPosition.Length)]
         var sparks = Instantiate(FishSpawnSparks, pos.position, pos.rotation);
         Destroy(sparks, 2f);
-        Instantiate(ObjToSpawn[numberCharacters], pos.position, pos.rotation);
+        Instantiate(CustomObjToSpawn[numberCharacters], pos.position, pos.rotation);//Instantiate(ObjToSpawn[numberCharacters], pos.position, pos.rotation);
 
-        Invoke("canceledChange", 0.5f);
+        //Invoke("canceledChange", 0.5f);
 
         //for (int i = 0; i < _material.Length; i++)
         //{
