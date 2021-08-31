@@ -32,7 +32,7 @@ public class CustomFishMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (time < 2.4)
+        if (time < 7)
         {
             Quaternion rotationY = Quaternion.AngleAxis(1, Vector3.up/*(0, 1, 0)*/);
             transform.rotation *= rotationY;
@@ -50,15 +50,15 @@ public class CustomFishMove : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        if (time >= 2.4 && time < 5)
-        {
-            EndPoint = GameObject.Find("EndPoint");
-            transform.LookAt(EndPoint.transform.position);
-            transform.position = Vector3.Lerp(transform.position, EndPoint.transform.position, 0.02f);
+        //if (time >= 2.4 && time < 5)
+        //{
+        //    EndPoint = GameObject.Find("EndPoint");
+        //    transform.LookAt(EndPoint.transform.position);
+        //    transform.position = Vector3.Lerp(transform.position, EndPoint.transform.position, 0.02f);
 
-            //transform.position = Vector3.MoveTowards(transform.position, EndPoint, Time.deltaTime);
-        }
-        if (time>5)
+        //    //transform.position = Vector3.MoveTowards(transform.position, EndPoint, Time.deltaTime);
+        //}
+        if (time>7)
         {
             Debug.Log("Custom move=true");
 

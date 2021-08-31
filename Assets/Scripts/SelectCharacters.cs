@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class SelectCharacters : MonoBehaviour
 {
-    float time = 0.1f;
-
+    public float time = 0;
 
     public Text[] nameFish;
     public Text NameFish;
@@ -62,10 +61,14 @@ public class SelectCharacters : MonoBehaviour
 
     [SerializeField] private GameObject FishSpawnSparks;
 
-
+    public FishMovement fishMovement;
+    public CrabMovement crabMovement;
     // Start is called before the first frame update
     void Start()
     {
+        fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();        
+        crabMovement = ObjToSpawn[3].GetComponent<CrabMovement>();//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();        
+
         canceledChange();
 
         //_material[numberCharacters].color = _materialCopy[numberCharacters].color;
@@ -91,7 +94,8 @@ public class SelectCharacters : MonoBehaviour
 
         if (allCharacters[0])
         {
-            allCharacters[0].SetActive(true);
+            allCharacters[0].SetActive(false);//allCharacters[0].SetActive(true);
+
         }
 
         //if (PlayerPrefs.HasKey("CurrentCharacter"))
@@ -198,6 +202,8 @@ public class SelectCharacters : MonoBehaviour
 
         NameFish.text = nameFish[numberCharacters].text;
 
+        fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();        
+        crabMovement = ObjToSpawn[3].GetComponent<CrabMovement>();//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();        
         //if (numberCharacters < allCharacters.Length)
         //{
         //    if (numberCharacters == 0)
@@ -246,6 +252,8 @@ public class SelectCharacters : MonoBehaviour
         allCharacters[numberCharacters].SetActive(true);
         NameFish.text = nameFish[numberCharacters].text;
 
+        fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();        
+        crabMovement = ObjToSpawn[3].GetComponent<CrabMovement>();//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();        
         //if (numberCharacters < allCharacters.Length)
         //{
         //    allCharacters[numberCharacters].SetActive(false);//��������� ���������
@@ -300,7 +308,9 @@ public class SelectCharacters : MonoBehaviour
 
         Menu.SetActive(true);
         spawnMenu.SetActive(true);
-        closedMenu.SetActive(true);        
+        closedMenu.SetActive(true);
+
+        allCharacters[numberCharacters].SetActive(true);
     }
 
     public void ClosedMenu()
@@ -314,6 +324,7 @@ public class SelectCharacters : MonoBehaviour
         _material[numberCharacters].color = _materialCopy[numberCharacters].color;
         _material[numberCharacters].mainTexture = _materialCopy[numberCharacters].mainTexture;
 
+        allCharacters[numberCharacters].SetActive(false);
     }
 
     public void CustomMenu()
@@ -333,12 +344,21 @@ public class SelectCharacters : MonoBehaviour
         _material[numberCharacters].mainTexture = _materialCopy[numberCharacters].mainTexture;
     }
 
+    private void Update()
+    {
+        time += Time.deltaTime;
+    }
+
     public void buttonSelect()
     {
         Menu.SetActive(false);
         customMenu.SetActive(false);
         closedMenu.SetActive(false);
-        openMenu.SetActive(true);
+        allCharacters[numberCharacters].SetActive(false);
+        Invoke("Open", 6.5f);
+
+        //openMenu.SetActive(true);
+
         //------------------------------------------------------------
         //whereToSpawn = new Vector3(-1.279f, 0.726f, -10.5928f);
 
@@ -348,9 +368,21 @@ public class SelectCharacters : MonoBehaviour
         Transform pos = CustomSpawnPosition;//[Random.Range(0, SpawnPosition.Length)]
         var sparks = Instantiate(FishSpawnSparks, pos.position, pos.rotation);
         Destroy(sparks, 2f);
-        Instantiate(CustomObjToSpawn[numberCharacters], pos.position, pos.rotation);//Instantiate(ObjToSpawn[numberCharacters], pos.position, pos.rotation);
 
-        //Invoke("canceledChange", 0.5f);
+        if (numberCharacters == 3)
+        {
+            crabMovement.rotation = true;
+        }
+        else
+        {
+            fishMovement.rotation = true;//FishMovement.a = true;
+
+        }
+
+        Instantiate(ObjToSpawn[numberCharacters], pos.position, pos.rotation);//Instantiate(CustomObjToSpawn[numberCharacters], pos.position, pos.rotation);//Instantiate(ObjToSpawn[numberCharacters], pos.position, pos.rotation);
+        Invoke("canceledRotation", 0.1f);
+
+        Invoke("canceledChange", 0.5f);
 
         //for (int i = 0; i < _material.Length; i++)
         //{
@@ -360,6 +392,11 @@ public class SelectCharacters : MonoBehaviour
 
         //_material[numberCharacters].color = _materialCopy[numberCharacters].color;
         //_material[numberCharacters].mainTexture = _materialCopy[numberCharacters].mainTexture;
+
+    }
+    void Open()
+    {
+        openMenu.SetActive(true);
     }
 
     void canceledChange()
@@ -369,6 +406,12 @@ public class SelectCharacters : MonoBehaviour
             _material[i].color = _materialCopy[i].color;
             _material[i].mainTexture = _materialCopy[i].mainTexture;
         }
+    }
+
+    void canceledRotation()
+    {
+        fishMovement.rotation = false;//FishMovement.a = true;
+        crabMovement.rotation = false;//FishMovement.a = true;
     }
     //-------------------------------
     void FixedUpdate()

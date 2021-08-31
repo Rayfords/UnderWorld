@@ -77,8 +77,14 @@ public class FishMovement : MonoBehaviour {
     public Vector3 offsetText;
     private bool bChangeTexture;
     private float direction = 1f;
+
+    public GameObject openMenu;
+    public SelectCharacters selectCharacters;
     void Start()
     {
+        openMenu = GameObject.Find("Characters");//fishMovement = ObjToSpawn[numberCharacters].GetComponent<FishMovement>();    
+        selectCharacters = openMenu.GetComponent<SelectCharacters>();
+
         //tempNameFish = Instantiate(nameFish, FindObjectOfType<Canvas>().transform).GetComponent<Text>();
         changeText();
         tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position);
@@ -86,9 +92,42 @@ public class FishMovement : MonoBehaviour {
         bChangeTexture = false;
     }
 
+    //----------------------------------------------------------------------------------
+    private float time = 0;
+    public /*static*/ bool rotation = false;
+
+    void FixedUpdate()
+    {
+
+        //if (s.rot == true)
+        // {
+        if (rotation == true)
+        {
+            if (time < 6.5)
+            {
+                Quaternion rotationY = Quaternion.AngleAxis(1, Vector3.up/*(0, 1, 0)*/);
+                transform.rotation *= rotationY;
+            }
+            else
+            {
+                Quaternion rotationY = Quaternion.AngleAxis(0, Vector3.up/*(0, 1, 0)*/);
+                transform.rotation *= rotationY;
+            }
+        }
+
+        //}
+    }
+    //----------------------------------------------------------------------------------
+
     //Оновлення викликається один раз на кадр
     void Update()
     {
+        //----------------------------------------------------------------------------------
+
+        time += Time.deltaTime;
+        //----------------------------------------------------------------------------------
+
+
         //Змінює текстуру, якщо користувач у меню натиснув на кнопку "Set texture".
         if (gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>() != null &&
             gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material != null &&
@@ -102,32 +141,39 @@ public class FishMovement : MonoBehaviour {
                 tempTexture.Apply();
                 bChangeTexture = false;
             }
-        }
-        //Переміщює об'єкт по осі Х.
-        gameObject.transform.Translate(new Vector3(moveXfloat * direction, 0, 0) * Time.deltaTime);
-        //Викликається метод для змінення швидкості переміщення по осі Х. Метод викликається раз у 1 - 3 секунди.
-        float secX = Random.Range(1f, 3f);
-        if (bMoveX)
+        }    //----------------------------------------------------------------------------------
+
+        
+        if (time > 6.5 || rotation == false)
         {
-            Invoke("moveX", secX);
-            bMoveX = false;
+            
+            //Переміщює об'єкт по осі Х.
+            gameObject.transform.Translate(new Vector3(moveXfloat * direction, 0, 0) * Time.deltaTime);
+            //Викликається метод для змінення швидкості переміщення по осі Х. Метод викликається раз у 1 - 3 секунди.
+            float secX = Random.Range(1f, 3f);
+            if (bMoveX)
+            {
+                Invoke("moveX", secX);
+                bMoveX = false;
+            }
+            //Викликається метод для штовхання об'єкту по осі Y. Метод викликається раз у 400 - 500 мілісекунд.
+            float secY = Random.Range(0.4f, 0.5f);
+            if (bMoveY)
+            {
+                Invoke("moveY", secY);
+                bMoveY = false;
+            }
+            //Змінення позиції тексту над рибою.
+            tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
+            //Викликається метод для повороту об'єкту по осі Х. Метод викликається раз у 5 секунд.
+            if (bRotate)
+            {
+                Invoke("canRotate", 5f);
+                bRotate = false;
+            }
+            rotateTo();
         }
-        //Викликається метод для штовхання об'єкту по осі Y. Метод викликається раз у 400 - 500 мілісекунд.
-        float secY = Random.Range(0.4f, 0.5f);
-        if (bMoveY)
-        {
-            Invoke("moveY", secY);
-            bMoveY = false;
-        }
-        //Змінення позиції тексту над рибою.
-        //tempNameFish.transform.position = Camera.main.WorldToScreenPoint(transform.position + offsetText);
-        //Викликається метод для повороту об'єкту по осі Х. Метод викликається раз у 5 секунд.
-        if (bRotate)
-        {
-            Invoke("canRotate", 5f);
-            bRotate = false;
-        }
-        rotateTo();
+        //----------------------------------------------------------------------------------
     }
 
     public void changeTexture()
